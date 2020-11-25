@@ -27,8 +27,7 @@ class ViewController: UIViewController {
     private var emojiDictionary = [Int : String]()
     private func emojiIdentifier(for card: Card) -> String {
         if emojiDictionary[card.identifier] == nil {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiCollection.count)))
-            emojiDictionary[card.identifier] = emojiCollection.remove(at: randomIndex)
+            emojiDictionary[card.identifier] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtension)
         }
         return emojiDictionary[card.identifier] ?? "?"
     }
@@ -65,4 +64,16 @@ class ViewController: UIViewController {
         }
     }
     
+}
+
+extension Int {
+    var arc4randomExtension: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(abs(self))))
+        } else {
+            return 0
+        }
+    }
 }
