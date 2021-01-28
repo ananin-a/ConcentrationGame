@@ -15,34 +15,47 @@ class ViewController: UIViewController {
         return (buttonCollection.count + 1) / 2
     }
     
+    private func updateTouches() {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .strokeWidth: 5.0,
+            .strokeColor: UIColor.black
+        ]
+        
+        let attributedString = NSAttributedString(string: "Touchers: \(touches)",
+                                                  attributes: attributes)
+        touchersLabel.attributedText = attributedString
+    }
+    
     private(set) var touches = 0 {
         didSet {
-            touchersLabel.text = "Touchers: \(touches)"
+            updateTouches()
         }
     }
     
     private var emojiCollection = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼",
-                           "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "👾"]
+                                   "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "👾"]
     
-    private var emojiDictionary = [Int : String]()
+    private var emojiDictionary = [Card: String]()
+    
     private func emojiIdentifier(for card: Card) -> String {
-        if emojiDictionary[card.identifier] == nil {
-            emojiDictionary[card.identifier] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtension)
+        if emojiDictionary[card] == nil {
+            emojiDictionary[card] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtension)
         }
-        return emojiDictionary[card.identifier] ?? "?"
+        return emojiDictionary[card] ?? "?"
     }
     
     func updateViewFromModel() {
         for index in buttonCollection.indices {
+            
             let button = buttonCollection[index]
             let card = game.cards[index]
+            
             if card.isFaceUp {
                 button.setTitle(emojiIdentifier(for: card), for: .normal)
                 button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                 button.isEnabled = false
             } else {
                 button.setTitle("", for: .normal)
-//                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : #colorLiteral(red: 0, green: 0.4877254367, blue: 1, alpha: 1)
                 if card.isMatched {
                     button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
                     button.isEnabled = false
@@ -54,8 +67,13 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBOutlet private weak var touchersLabel: UILabel!
+    @IBOutlet private weak var touchersLabel: UILabel! {
+        didSet {
+            updateTouches()
+        }
+    }
     @IBOutlet private var buttonCollection: [UIButton]!
+    
     @IBAction private func buttonAction(_ sender: UIButton) {
         touches += 1
         if let buttonIndex = buttonCollection.firstIndex(of: sender) {
@@ -77,3 +95,4 @@ extension Int {
         }
     }
 }
+

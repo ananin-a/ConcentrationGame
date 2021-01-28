@@ -70,10 +70,10 @@
 		F25007AB2566AE850057554A /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
-				F2C0DCB4256131C700113470 /* Assets.xcassets */,
-				F2C0DCB9256131C700113470 /* Info.plist */,
-				F2C0DCAD256131C200113470 /* SceneDelegate.swift */,
 				F2C0DCAB256131C200113470 /* AppDelegate.swift */,
+				F2C0DCAD256131C200113470 /* SceneDelegate.swift */,
+				F2C0DCB9256131C700113470 /* Info.plist */,
+				F2C0DCB4256131C700113470 /* Assets.xcassets */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
